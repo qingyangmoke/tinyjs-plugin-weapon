@@ -1,17 +1,16 @@
 {
-  "name": "tinyjs-plugin-p2",
+  "name": "tinyjs-plugin-weapon",
   "version": "0.0.3",
   "author": "采东 <qingyangmoke@qq.com>",
-  "description": "tinyjs P2物理引擎基础库",
+  "description": "tinyjs-plugin-weapon",
   "keywords": [
     "tinyjs",
     "plugin",
-    "physics",
-    "p2"
+    "weapon"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/qingyangmoke/tinyjs-plugin-p2.git"
+    "url": "https://github.com/qingyangmoke/tinyjs-plugin-weapon.git"
   },
   "main": "src/index.js",
   "files": [
@@ -23,7 +22,7 @@
   "scripts": {
     "start": "npm run dev",
     "build": "webpack --progress --colors",
-    "dev": "webpack --progress --colors --watch --config ./config/webpack.p2.dev.config.js",
+    "dev": "webpack --progress --colors --watch --config ./config/webpack.dev.config.js",
     "doc": "rm -rf docs && jsdoc README.md src -r -d docs -t node_modules/docdash",
     "lint": "eslint src/** tests/**",
     "test": "mocha ./tests --recursive --require ./tests/setup.js",
@@ -50,10 +49,9 @@
     "webpack-merge": "~0.15.0"
   },
   "bugs": {
-    "url": "https://github.com/qingyangmoke/tinyjs-plugin-p2/issues"
+    "url": "https://github.com/qingyangmoke/tinyjs-plugin-weapon/issues"
   },
-  "homepage": "https://github.com/qingyangmoke/tinyjs-plugin-p2#readme",
+  "homepage": "https://github.com/qingyangmoke/tinyjs-plugin-weapon#readme",
   "dependencies": {
-    "poly-decomp": "0.2.1"
   }
 }

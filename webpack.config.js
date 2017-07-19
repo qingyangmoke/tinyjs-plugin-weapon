@@ -1,3 +1,3 @@
-const dev = require('./config/webpack.p2.dev.config');
-const prod = require('./config/webpack.p2.prod.config');
+const dev = require('./config/webpack.dev.config');
+const prod = require('./config/webpack.prod.config');
 module.exports = [dev, prod];
