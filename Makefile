@@ -4,7 +4,7 @@ github  = https://github.com/qingyangmoke/tinyjs-plugin-weapon.git
 
 qtdeploy:
 	@git remote set-url origin ${gitlab}
-	@git add -A .
+	@git add -A
 	@git commit -am 'update'
 	@git tag ${version}
 	@git push origin master --tags
