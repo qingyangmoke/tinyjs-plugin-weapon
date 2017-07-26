@@ -1,13 +1,10 @@
 # tinyjs-plugin-weapon
 
-> 武器插件
+> 武器发射系统插件
 
 ## 查看demo
 
 `demo/index.html`
-
-## P2
-> P2 物理引擎
 
 ## 引用方法
 
