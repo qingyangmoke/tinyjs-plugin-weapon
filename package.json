@@ -2,7 +2,7 @@
   "name": "tinyjs-plugin-weapon",
   "version": "0.0.1",
   "author": "清扬陌客 <qingyangmoke@qq.com>",
-  "description": "tinyjs-plugin-weapon",
+  "description": "tinyjs 武器发射系统",
   "keywords": [
     "tinyjs",
     "plugin",
