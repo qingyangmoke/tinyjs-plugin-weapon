@@ -9,6 +9,7 @@
   <script src="https://a.alipayobjects.com/g/tiny-plugins/tinyjs-plugin-tiling/0.0.1/index.debug.js"></script>
   <script src="https://a.alipayobjects.com/g/tiny-plugins/tinyjs-plugin-keyboard/0.0.1/index.debug.js"></script>
   <script src="libs/dat.gui.min.js"></script>
+  <script src="libs/stats.js"></script>
   <script src="libs/tinyjs-plugin-wordwrap.js"></script>
   <script src="../dist/index.debug.js"></script>
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2,minimum-scale=1,user-scalable=1">
@@ -27,7 +28,7 @@
 
   <script>
     var config = {
-      showFPS: true, // 显示帧频
+      showFPS: false, // 显示帧频
       dpi: 1, // 分辨率
       renderOptions: {
         backgroundColor: 0x2a3145 // 画布背景色
@@ -162,7 +163,10 @@
       var upArrow = new Tiny.Keyboard(38);
       var downArrow = new Tiny.Keyboard(40);
       var spaceBar = new Tiny.Keyboard(32);
+
+      var stats = initStats();
       app.onUpdate(function () {
+        stats.update();
 
         tilingSprite.tilePosition.y += 5;
 
@@ -218,14 +222,27 @@
 
 
 
+    function initStats() {
+      var stats = new Stats();
+      stats.setMode(0); // 0: fps, 1: ms
+      // Align top-left
+      stats.domElement.style.position = 'absolute';
+      stats.domElement.style.left = '0px';
+      stats.domElement.style.top = '0px';
+      document.body.appendChild(stats.domElement);
+      return stats;
+    }
+
+    initStats();
+
     Tiny.Loader
       .add('backgorund', 'images/desert-backgorund-looped.png')
       // .add('player', 'images/Spaceship_tut.png')
       // .add('player', 'images/ship1.png')
       // .add('player', 'images/ship2.png')
       .add('player', 'images/blue.png')
-      // .add('bullet', 'images/new_bullet.png')
-      .add('bullet', 'images/arrow.png')
+      .add('bullet', 'images/new_bullet.png')
+      // .add('bullet', 'images/arrow.png')
       .load(function () {
         init();
       });
