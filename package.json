@@ -1,7 +1,7 @@
 {
   "name": "tinyjs-plugin-weapon",
-  "version": "0.0.3",
-  "author": "采东 <qingyangmoke@qq.com>",
+  "version": "0.0.1",
+  "author": "清扬陌客 <qingyangmoke@qq.com>",
   "description": "tinyjs-plugin-weapon",
   "keywords": [
     "tinyjs",
@@ -12,7 +12,7 @@
     "type": "git",
     "url": "https://github.com/qingyangmoke/tinyjs-plugin-weapon.git"
   },
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "files": [
     "src",
     "demo",

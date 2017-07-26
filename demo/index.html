@@ -2,9 +2,14 @@
 <html lang="en">
 
 <head>
-  <title>p2.js and Pixi.js example</title>
+  <title>荒野大作战</title>
   <meta charset="utf-8">
   <script src="libs/tiny.debug.js"></script>
+  <script src="https://gw.alipayobjects.com/as/g/tiny-plugins/tinyjs-plugin-ant/0.0.5/index.debug.js"></script>
+  <script src="https://a.alipayobjects.com/g/tiny-plugins/tinyjs-plugin-tiling/0.0.1/index.debug.js"></script>
+  <script src="https://a.alipayobjects.com/g/tiny-plugins/tinyjs-plugin-keyboard/0.0.1/index.debug.js"></script>
+  <script src="libs/dat.gui.min.js"></script>
+  <script src="libs/tinyjs-plugin-wordwrap.js"></script>
   <script src="../dist/index.debug.js"></script>
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2,minimum-scale=1,user-scalable=1">
   <style type="text/css">
@@ -30,14 +35,40 @@
     };
 
     var app = new Tiny.Application(config);
-    Tiny.Physics.P2.startSystem(app, {
-      gravity: [0, 9.82]
+
+    // 启用物理系统
+    Tiny.Physics.Ant.startSystem(app, {
+      gravity: [0, 0],
+      debug: {
+        lineWidth: 1,
+        alpha: 1,
+        fill: false,
+        fillColor: 0xff0000,
+        lineColor: 0xff0000,
+      }
     });
 
-    //  设置回弹系数 增加小人落到地上的回跳效果
-    app.physics.p2.restitution = 0.3;
+    function setTitle(title, container) {
+      var title = new Tiny.Text(title, {
+        fontSize: '18px',
+        fill: 'white',
+      });
 
-    init();
+      title.position.set(Tiny.WIN_SIZE.width / 2, 30);
+      title.anchor.set(0.5, 0);
+      container.addChild(title);
+    }
+
+    function createCircle(app, radius, color) {
+      let graphics = new Tiny.Graphics();
+      graphics.beginFill(color);
+      graphics.drawCircle(radius, radius, radius);
+      graphics.bounds = new Tiny.Rectangle(0, 0, radius * 2, radius * 2);
+      var rt = Tiny.RenderTexture.create(radius * 2, radius * 2);
+      app.renderer.render(graphics, rt);
+      let sprite = new Tiny.Sprite(rt);
+      return sprite;
+    }
 
     function createBox(app, width, height, color) {
       let graphics = new Tiny.Graphics();
@@ -50,57 +81,154 @@
       return sprite;
     }
 
-    function init() {
+    function accelerationFromRotation(rotation, speed = 60, point) {
+      point = point || new Tiny.Point();
+      point.x = (Math.cos(rotation) * speed);
+      point.y = (Math.sin(rotation) * speed);
+      return point;
+    }
 
+    var sprite;
+    function init() {
       container = new Tiny.Container();
 
-      var looptimes = 50;
+      setTitle('荒野大作战', container);
 
-      function getColor() {
-        return 0x1000000 + Math.random() * 0x1000000;
-      }
+      var tilingTexture = Tiny.Loader.resources['backgorund'].texture;
+      var tilingSprite = new Tiny.tiling.TilingSprite(tilingTexture, Tiny.WIN_SIZE.width, Tiny.WIN_SIZE.height);
+      container.addChild(tilingSprite);
 
-      var timer = setInterval(function () {
-        var sprite = createBox(app, 40, 40, getColor());
-        // var sprite = createBox(app, 40, 40, 0xffffff);
-        sprite.position.x = 50 + Math.floor(Math.random() * 200);
-        sprite.position.y = 100;
-        // sprite.scale.set(.5);
+      tilingSprite.tileScale.x = Tiny.WIN_SIZE.width / tilingTexture.width;
 
-        app.physics.p2.enable(sprite, true);
+      sprite = new Tiny.Weapon.Bullet(Tiny.Loader.resources['player'].texture);
 
-        // sprite.body.angularVelocity = -10;
-        sprite.body.mass = 1;
+      sprite.position.x = Tiny.WIN_SIZE.width / 2;
+      sprite.position.y = Tiny.WIN_SIZE.height - 100;
+      sprite.anchor.set(0.5);
 
-        sprite.body.setCircle(10);
+      app.physics.ant.enable(sprite, false);
 
-        container.addChild(sprite);
+      // sprite.body.collideWorldBounds = true;
 
-        if (--looptimes <= 0) {
-          clearInterval(timer);
+      container.addChild(sprite);
+
+
+      // border = createBox(app, sprite.width, sprite.height, 0xff0000);
+      // border.position.x = -sprite.width / 2;
+      // border.position.y = -sprite.height / 2;
+      // border.alpha = 0.3;
+      // sprite.addChild(border);
+
+      // circle = createCircle(app, 4, 0x0000ff);
+      // circle.position.x = -2;
+      // circle.position.y = -2;
+      // sprite.addChild(circle);
+
+      // point = new Tiny.Weapon.Point(circle.position.x, circle.position.y);
+      // point.set(sprite.x, sprite.y - sprite.height / 2);
+
+      // circle = new Tiny.Sprite(Tiny.Loader.resources['bullet'].texture);
+      // circle.position.x = point.x;
+      // circle.position.y = point.y;
+      // circle.anchor.set(0.5);
+
+      // container.addChild(circle);
+
+      weapon = new Tiny.Weapon.Emitter(app, Tiny.Loader.resources['bullet'].texture);
+      // 子弹运行的速度
+      weapon.bulletSpeed = 300;
+      // 子弹发射的频率 两次发射不能低于这个数值
+      weapon.fireRate = 300;
+      // 是否自动发射
+      weapon.autofire = true;
+
+      // 根据时间销毁
+      // weapon.bulletKillType = Tiny.Weapon.killTypes.KILL_LIFESPAN;
+      // weapon.bulletLifespan = 500;
+
+      // 根据距离销毁
+      // weapon.bulletKillType = Tiny.Weapon.killTypes.KILL_DISTANCE;
+      // weapon.bulletKillDistance = 50;
+      weapon.trackSprite(sprite, 0, -sprite.height / 2, true, -90);
+
+      container.addChild(weapon);
+
+      app.run(container);
+
+      var angle = 0;
+
+      var leftArrow = new Tiny.Keyboard(37);
+      var rightArrow = new Tiny.Keyboard(39);
+      var upArrow = new Tiny.Keyboard(38);
+      var downArrow = new Tiny.Keyboard(40);
+      var spaceBar = new Tiny.Keyboard(32);
+      app.onUpdate(function () {
+
+        tilingSprite.tilePosition.y += 5;
+
+        if (upArrow.isDown || downArrow.isDown) {
+          accelerationFromRotation(sprite.rotation - Math.PI / 2, downArrow.isDown ? -300 : 300, sprite.body.acceleration);
+        } else {
+          sprite.body.acceleration.set(0);
+          sprite.body.velocity.set(0);
         }
-      }, 1000);
 
+        if (spaceBar.isDown) {
+          weapon.fire();
+        }
 
-      sprite2 = createBox(app, 100, 50, 0xffffff);
-      sprite2.position.x = 100;
-      sprite2.position.y = 500;
-      app.physics.p2.enable(sprite2, true);
+        if (leftArrow.isDown) {
+          angle = (360 + angle - 3) % 360;
+        } else if (rightArrow.isDown) {
+          angle = (360 + angle + 3) % 360;
+        }
+        rotation(angle);
 
-      sprite2.body.static = true;
-      sprite2.body.on('shapeChanged', function (a) {
-        console.log('shapeChanged', a)
-      })
-
-      sprite2.body.on('beginContact', function (bodyB, shapeB, bodyA, shapeA) {
-        // console.log(bodyB, shapeB, bodyA, shapeA);
-        // bodyB.sprite.body.removeFromWorld();
-        // bodyB.sprite.parent.removeChild(bodyB.sprite);
+        Tiny.WorldWrap.wrap(app, sprite, 25);
       });
 
-      container.addChild(sprite2);
-      app.run(container);
+
+      var gui = new dat.GUI();
+
+      var weaponConfig = {
+        bulletKillType: ''
+      };
+
+      var killTypes = ["KILL_NEVER", "KILL_LIFESPAN", "KILL_DISTANCE", "KILL_WEAPON_BOUNDS", "KILL_CAMERA_BOUNDS", "KILL_WORLD_BOUNDS"];
+      gui.add(weaponConfig, 'bulletKillType', killTypes).onChange(function () {
+        weapon.bulletKillType = killTypes.indexOf(weaponConfig.bulletKillType);
+      });
+
+      gui.add(weapon, 'bulletLifespan', 100, 5000);
+      gui.add(weapon, 'bulletKillDistance', 50, 500);
+      gui.add(weapon, 'bulletSpeed', 0, 1000);
+      gui.add(weapon, 'fireRate', 0, 600);
+      gui.add(weapon, 'autofire');
     }
+
+
+
+    function rotation(angle) {
+      sprite.rotation = Tiny.Weapon.Math.degToRad(angle);
+      // point.set(sprite.x, sprite.y - sprite.height / 2);
+      // point.rotate(sprite.x, sprite.y, sprite.rotation);
+      // circle.x = point.x;
+      // circle.y = point.y;
+    }
+
+
+
+    Tiny.Loader
+      .add('backgorund', 'images/desert-backgorund-looped.png')
+      // .add('player', 'images/Spaceship_tut.png')
+      // .add('player', 'images/ship1.png')
+      // .add('player', 'images/ship2.png')
+      .add('player', 'images/blue.png')
+      // .add('bullet', 'images/new_bullet.png')
+      .add('bullet', 'images/arrow.png')
+      .load(function () {
+        init();
+      });
   </script>
 </body>
 

@@ -3,7 +3,7 @@ const merge = require('webpack-merge');
 const webpack = require('webpack');
 const pkg = require('../package.json');
 
-const config = require('./webpack.p2.dev.config');
+const config = require('./webpack.dev.config');
 
 // 压缩版
 const minConfig = merge(config, {
