@@ -1,7 +1,7 @@
 {
   "name": "tinyjs-plugin-weapon",
   "version": "0.0.1",
-  "author": "采东",
+  "author": "清扬陌客 <qingyangmoke@qq.com>",
   "description": "tinyjs 武器发射系统",
   "keywords": [
     "tinyjs",
@@ -10,7 +10,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@gitlab.alipay-inc.com:tiny-plugins/tinyjs-plugin-weapon.git"
+    "url": "https://github.com/qingyangmoke/tinyjs-plugin-weapon.git"
   },
   "main": "dist/index.js",
   "files": [
@@ -52,6 +52,5 @@
     "url": "https://github.com/qingyangmoke/tinyjs-plugin-weapon/issues"
   },
   "homepage": "https://github.com/qingyangmoke/tinyjs-plugin-weapon#readme",
-  "dependencies": {
-  }
+  "dependencies": {}
 }
