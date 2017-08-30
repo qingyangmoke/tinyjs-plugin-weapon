@@ -1,4 +1,9 @@
 /**
+ * @file        tinyjs-plugin-weapon
+ * @author      采东
+ */
+
+/**
 * Tiny.js
 * @external Tiny
 * @see {@link http://tinyjs.net/}

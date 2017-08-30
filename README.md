@@ -42,6 +42,9 @@ container.addChild(weaponEmitter);
 - [Tiny.js](http://tinyjs.net/#/docs/api)
 - [Tiny.Physics.Ant.js](https://github.com/qingyangmoke/tinyjs-plugin-ant)
 
+## 特别声明
+代码中部分算法 借鉴了 [Phaser](http://phaser.io/) 的实现
+
 ## API文档
 ``` js
   // 项目基于jsdoc自动生成API文档
