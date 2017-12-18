@@ -4,19 +4,18 @@
 
 ## 查看demo
 
-`demo/index.html`
+http://tinyjs.net/#/plugins/tinyjs-plugin-weapon/demo
 
 ## 引用方法
 
 - 推荐作为依赖使用
 
   - `npm install tinyjs-plugin-weapon --save`
-  - 或者使用 ./dist/index.js 或者./dist/index.debug.js
 
 - 也可以直接引用线上cdn地址，注意要使用最新的版本号，例如：
 
-  - https://gw.alipayobjects.com/as/g/tiny-plugins/tinyjs-plugin-weapon/0.0.1/index.js
-  - https://gw.alipayobjects.com/as/g/tiny-plugins/tinyjs-plugin-weapon/0.0.1/index.debug.js
+  - https://gw.alipayobjects.com/as/g/tiny-plugins/tinyjs-plugin-weapon/0.1.1/index.js
+  - https://gw.alipayobjects.com/as/g/tiny-plugins/tinyjs-plugin-weapon/0.1.1/index.debug.js
 ## 起步
 首先当然是要引入，推荐`NPM`方式，当然你也可以下载独立版本，先从几个例子入手吧！
 
@@ -24,7 +23,7 @@
 
 引用 Tiny.js 源码
 ``` html
-<script src="http://tinyjs.net/libs/tiny.debug.js"></script>
+<script src="https://gw.alipayobjects.com/as/g/tiny/tiny/1.1.5/tiny.js"></script>
 ```
 
 ``` js
@@ -38,22 +37,18 @@ weaponEmitter.trackSprite(sprite, 0, -sprite.height / 2, true, -90);
 container.addChild(weaponEmitter);
 ```
 
+## 依赖
+- `Tiny.js`: [Link](http://tinyjs.net/#/docs/api)
+
 ## 相关文档
 - [Tiny.js](http://tinyjs.net/#/docs/api)
 - [Tiny.Physics.Ant.js](https://github.com/qingyangmoke/tinyjs-plugin-ant)
+- [Tiny.Physics.P2.js](https://github.com/qingyangmoke/tinyjs-plugin-p2)
 
 ## 特别声明
 代码中部分算法 借鉴了 [Phaser](http://phaser.io/) 的实现
 
 ## API文档
-``` js
-  // 项目基于jsdoc自动生成API文档
-  git clone https://github.com/qingyangmoke/tinyjs-plugin-weapon.git
-  cd tinyjs-plugin-weapon
-  npm i
-  npm run doc
-```
 
-## demo
- ./demo
+http://tinyjs.net/#/plugins/tinyjs-plugin-weapon/docs
 
